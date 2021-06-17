@@ -1,32 +1,47 @@
 #pillow library exploratory project
 import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 from PIL import Image
 
+def Histo(arr) -> dict:
+        histogram = {}
+        for i in arr:
+            histogram[i] = histogram.get(i,0) + 1
+        return histogram
 
 class Img_stat:
-      # we will use subrectangle for spample std deveation
+    # we will use subrectangle for spample std deveation
     # histogram, box plot and scater plot
     # range mean mode, std dist
     
+    
+    
+
     def __init__(self, pic):
         self.img = Image.open(pic)
         
         self.blueBand = np.asarray(list(self.img.getdata(band=2)))
         self.blueBand.sort()
+        self.blueHist = Histo(self.blueBand)
         
         self.greenBand = np.asarray(list(self.img.getdata(band=1)))
         self.greenBand.sort()
-        
+        self.greenHist = Histo(self.greenBand)
+
         self.redBand = np.asarray(list(self.img.getdata(band=0)))
         self.redBand.sort()
-        
+        self.redHist = Histo(self.redBand)
+
+
         if self.img.mode == "RGBA":
             self.alphaBand = list(self.img.getdata(band=3))
             self.alphaBand.sort()
+            self.alphaHist = Histo(self.alphaBand)
         
     
         
-    #Mean for blue redd gree and alpha
+    #Mean for blue red green and alpha
 
     def alpha_mean(self):
         if self.img.mode != "RGBA":
@@ -44,18 +59,63 @@ class Img_stat:
     def red_mean(self):
          self.redMean  = self.redBand.mean()
          print(self.redMean)
+    
+    #Range for each color band
+    
+    def alpha_range(self):
+        if(self.img.mode != 'RBGA'):
+            print("(0, 0)")
+        else:
+            self.alphaRange = (self.alphaBand.amin(), self.alphaBand.amax())
+            print(self.alphaRange)
+            
+    def blue_range(self):
+        self.blueRange = (np.amin(self.blueBand), np.amax(self.blueBand))
+        print(self.blueRange)
+        
+    def green_range(self):
+        self.greenRange = (np.amin(self.greenBand), np.amax(self.greenBand))
+        print(self.greenRange)
+        
+    def red_range(self):
+        self.redRange = (np.amin(self.redBand), np.amax(self.redBand))
+        print(self.redRange)
+    
+    #Mode for each color band
+    
+    def blue_mode(self):
+        self.blueMode =  max(self.blueHist, key = self.blueHist.get)
+        print(self.blueMode)
+         
+    def green_mode(self):
+        self.greenMode =  max(self.greenHist, key = self.greenHist.get)
+        print(self.greenMode)     
+     
+    def red_mode(self):
+        self.redMode =  max(self.redHist, key = self.redHist.get)
+        print(self.redMode)   
+    
+    def alpha_mode(self):
+        if(self.img.mode != 'RBGA'):
+            print("N/A")
+        else:
+            self.alphaMode = max(self.alphaHist, key = self.alphaHist.get)
+            print(self.alphaMode)
     #Histogram of 5 bars incramenting by 51 
    
+ 
+    
+    
 
 
  
 
 
 imstat1 = Img_stat("test.png")
-imstat1.blue_mean()
-imstat1.green_mean()
-imstat1.red_mean()
-imstat1.alpha_mean()
+imstat1.blue_mode()
+imstat1.green_mode()
+imstat1.red_mode()
+imstat1.alpha_mode()
 #print(pic.format, pic.size, pic.mode)
 
 #Load the RGB values for every pixel in the form ((r1,b1,g1), (r2,g2,b2), ...)
