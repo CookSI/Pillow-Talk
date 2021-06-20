@@ -4,6 +4,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from PIL import Image
 
+plt.style.use("fivethirtyeight")
+
+# mistgram used with mode
 def Histo(arr) -> dict:
         histogram = {}
         for i in arr:
@@ -101,21 +104,30 @@ class Img_stat:
         else:
             self.alphaMode = max(self.alphaHist, key = self.alphaHist.get)
             print(self.alphaMode)
+    
     #Histogram of 5 bars incramenting by 51 
    
+    def blue_histogram(self):
+        plt.hist(self.blueBand, bins=5, color="blue",edgecolor ="black")
  
+    def green_histogram(self):
+        plt.hist(self.greenBand, bins=5, color="green",edgecolor ="black")    
     
-    
+    def red_histogram(self):
+        plt.hist(self.redBand, bins=5, color="red",edgecolor ='black')
+        plt.title('Red Pixel values')
+        plt.xlabel('Prixel Values')
+        plt.ylabel('Total Pixels')    
+        plt.show()
 
-
- 
 
 
 imstat1 = Img_stat("test.png")
 imstat1.blue_mode()
 imstat1.green_mode()
-imstat1.red_mode()
+imstat1.red_histogram()
 imstat1.alpha_mode()
+
 #print(pic.format, pic.size, pic.mode)
 
 #Load the RGB values for every pixel in the form ((r1,b1,g1), (r2,g2,b2), ...)
