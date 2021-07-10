@@ -39,7 +39,7 @@ class Img_stat:
 
 
         if self.img.mode == "RGBA":
-            self.alphaBand = list(self.img.getdata(band=3))
+            self.alphaBand = np.asarray(list(self.img.getdata(band=3)))
             self.alphaBand.sort()
             self.alphaHist = Histo(self.alphaBand)
         
@@ -67,10 +67,10 @@ class Img_stat:
 #Range for each color band
     
     def alpha_range(self):
-        if(self.img.mode != 'RBGA'):
+        if(self.img.mode != 'RGBA'):
             print("(0, 0)")
         else:
-            self.alphaRange = (self.alphaBand.amin(), self.alphaBand.amax())
+            self.alphaRange = (np.amin(self.alphaBand), np.amax(self.alphaBand))
             print(self.alphaRange)
             
     def blue_range(self):
@@ -100,7 +100,7 @@ class Img_stat:
         print(self.redMode)   
     
     def alpha_mode(self):
-        if(self.img.mode != 'RBGA'):
+        if(self.img.mode != 'RGBA'):
             print("N/A")
         else:
             self.alphaMode = max(self.alphaHist, key = self.alphaHist.get)
@@ -113,31 +113,31 @@ class Img_stat:
     def blue_histogram(self):
         plt.hist(self.blueBand, bins=5, color="blue",edgecolor ="black")
         plt.title('Blue Pixel values')
-        plt.xlabel('Prixel Values')
+        plt.xlabel('Pixel Values')
         plt.ylabel('Total Pixels')    
         plt.show()
 
     def green_histogram(self):
         plt.hist(self.greenBand, bins=5, color="green",edgecolor ="black")    
         plt.title('Green Pixel values')
-        plt.xlabel('Prixel Values')
+        plt.xlabel('Pixel Values')
         plt.ylabel('Total Pixels')    
         plt.show()
 
     def red_histogram(self):
         plt.hist(self.redBand, bins=5, color="red",edgecolor ='black')
         plt.title('Red Pixel values')
-        plt.xlabel('Prixel Values')
+        plt.xlabel('Pixel Values')
         plt.ylabel('Total Pixels')    
         plt.show()
 
     def alpha_histogram(self):
-        if(self.img.mode != 'RBGA'):
+        if(self.img.mode != "RGBA"):
             print("N/A")
         else:
-            plt.hist(self.redBand, bins=5, color="White",edgecolor ='black')
+            plt.hist(self.alphaBand, bins=5, color="White",edgecolor ='black')
             plt.title('Alpha Pixel values')
-            plt.xlabel('Prixel Values')
+            plt.xlabel('Pixel Values')
             plt.ylabel('Total Pixels')    
             plt.show()    
 #3D Scatter Plot 
