@@ -2,6 +2,7 @@
 #pillow library exploratory project
 import numpy as np
 import pandas as pd
+from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import matplotlib
 from PIL import Image
@@ -138,18 +139,72 @@ class Img_stat:
             plt.title('Alpha Pixel values')
             plt.xlabel('Prixel Values')
             plt.ylabel('Total Pixels')    
-            plt.show()
+            plt.show()    
+#3D Scatter Plot 
+    def scatterplot(self):
         
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+        x = self.redBand
+        y = self.greenBand
+        z = self.blueBand
 
-#Scatter Plot
+        ax.scatter(x, y, z, c='b', marker='o')
 
+        ax.set_xlabel('Red')
+        ax.set_ylabel('Green')
+        ax.set_zlabel('Blue')
 
+        plt.show()
+command = ""
+color = ""
 
-imstat1 = Img_stat("test.png")
-imstat1.blue_histogram()
-imstat1.green_histogram()
+img = input('Enter image file name: ')
+imstat1 = Img_stat(img)
 
-imstat1.red_histogram()
-imstat1.alpha_mode()
-
+while(command != "exit"):
+    command = input("Enter a command: ")
+    if(command == "mean"):
+        color = input("For what color? ")
+        if(color == "blue"):
+            imstat1.blue_mean()
+        elif(color == "red"):
+            imstat1.red_mean()
+        elif(color == "green"):
+            imstat1.green_mean()
+        elif(color == "alpha"):
+            imstat1.alpha_mean()
+    if(command == "range"):
+        color = input("For what color? ")
+        if(color == "blue"):
+            imstat1.blue_range()
+        elif(color == "red"):
+            imstat1.red_range()
+        elif(color == "green"):
+            imstat1.green_range()
+        elif(color == "alpha"):
+            imstat1.alpha_range()
+    if(command == "mode"):
+        color = input("For what color? ")
+        if(color == "blue"):
+            imstat1.blue_mode()
+        elif(color == "red"):
+            imstat1.red_mode()
+        elif(color == "green"):
+            imstat1.green_mode()
+        elif(color == "alpha"):
+            imstat1.alpha_mode()
+    if(command == "histogram"):
+        color = input("For what color? ")
+        if(color == "blue"):
+            imstat1.blue_histogram()
+        elif(color == "red"):
+            imstat1.red_histogram()
+        elif(color == "green"):
+            imstat1.green_histogram()
+        elif(color == "alpha"):
+            imstat1.alpha_histogram()
+    if(command == 'scatter'):
+        imstat1.scatterplot()
+        
 # %%
